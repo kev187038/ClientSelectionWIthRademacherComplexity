@@ -1,0 +1,110 @@
+RUN 1
+Round 1: loss=0.9581, metrics={'accuracy': 0.7435428951083797}
+Round 2: loss=0.6030, metrics={'accuracy': 0.7995183124325222}
+Round 3: loss=0.4720, metrics={'accuracy': 0.8435345901503197}
+Round 4: loss=0.4031, metrics={'accuracy': 0.87824931484096}
+Round 5: loss=0.3856, metrics={'accuracy': 0.8867203720621211}
+Round 6: loss=0.5850, metrics={'accuracy': 0.8344821858649614}
+Round 7: loss=0.4374, metrics={'accuracy': 0.872186695457188}
+Round 8: loss=0.4346, metrics={'accuracy': 0.8731832904243834}
+Round 9: loss=0.7962, metrics={'accuracy': 0.7913794535337596}
+Round 10: loss=0.4332, metrics={'accuracy': 0.8688647122332033}
+RUN 2
+Round 1: loss=0.6105, metrics={'accuracy': 0.8383855161531434}
+Round 2: loss=0.6636, metrics={'accuracy': 0.7661323810314757}
+Round 3: loss=0.4406, metrics={'accuracy': 0.8604767045926418}
+Round 4: loss=0.3763, metrics={'accuracy': 0.8877169670293165}
+Round 5: loss=0.4560, metrics={'accuracy': 0.8601445062702433}
+Round 6: loss=0.4546, metrics={'accuracy': 0.8637986878166265}
+Round 7: loss=0.6072, metrics={'accuracy': 0.8189519142928329}
+Round 8: loss=0.3835, metrics={'accuracy': 0.8902915040279047}
+Round 9: loss=0.4872, metrics={'accuracy': 0.8525039448550785}
+Round 10: loss=0.2801, metrics={'accuracy': 0.921518146333361}
+RUN 3
+Round 1: loss=0.8078, metrics={'accuracy': 0.7529274977161365}
+Round 2: loss=0.7995, metrics={'accuracy': 0.8035877418819035}
+Round 3: loss=0.6680, metrics={'accuracy': 0.8155468814882485}
+Round 4: loss=0.4611, metrics={'accuracy': 0.8498463582758907}
+Round 5: loss=0.5233, metrics={'accuracy': 0.8327381446723694}
+Round 6: loss=0.5224, metrics={'accuracy': 0.8361431774769538}
+Round 7: loss=0.3278, metrics={'accuracy': 0.9074827672120256}
+Round 8: loss=0.3755, metrics={'accuracy': 0.8942778838966863}
+Round 9: loss=0.3492, metrics={'accuracy': 0.9039946848268416}
+Round 10: loss=0.2856, metrics={'accuracy': 0.9237604850095507}
+RUN 4
+Round 1: loss=0.9483, metrics={'accuracy': 0.7080807241923428}
+Round 2: loss=0.5567, metrics={'accuracy': 0.7997674611743211}
+Round 3: loss=1.1097, metrics={'accuracy': 0.7338260941782244}
+Round 4: loss=0.5922, metrics={'accuracy': 0.817623121003239}
+Round 5: loss=0.6879, metrics={'accuracy': 0.7974420729175318}
+Round 6: loss=0.6398, metrics={'accuracy': 0.8161282285524458}
+Round 7: loss=0.3395, metrics={'accuracy': 0.9038285856656424}
+Round 8: loss=0.2969, metrics={'accuracy': 0.9176978656257786}
+Round 9: loss=0.4026, metrics={'accuracy': 0.8913711485756997}
+Round 10: loss=0.3207, metrics={'accuracy': 0.9118843949838054}
+RUN 5
+Round 1: loss=1.1772, metrics={'accuracy': 0.7207042604434848}
+Round 2: loss=1.3728, metrics={'accuracy': 0.7443733909143759}
+Round 3: loss=0.6191, metrics={'accuracy': 0.7924590980815547}
+Round 4: loss=0.4768, metrics={'accuracy': 0.8353126816709575}
+Round 5: loss=0.3291, metrics={'accuracy': 0.9060709243418321}
+Round 6: loss=0.3212, metrics={'accuracy': 0.9072336184702268}
+Round 7: loss=0.3147, metrics={'accuracy': 0.9109708495972095}
+Round 8: loss=0.3430, metrics={'accuracy': 0.9030811394402458}
+Round 9: loss=0.2816, metrics={'accuracy': 0.9241757329125488}
+Round 10: loss=0.3114, metrics={'accuracy': 0.9156216261107881}
+RUN 6
+Round 1: loss=0.9189, metrics={'accuracy': 0.7893032140187692}
+Round 2: loss=1.0520, metrics={'accuracy': 0.7741051407690391}
+Round 3: loss=0.7299, metrics={'accuracy': 0.8010132048833153}
+Round 4: loss=0.4609, metrics={'accuracy': 0.8535005398222739}
+Round 5: loss=0.4047, metrics={'accuracy': 0.8761730753259696}
+Round 6: loss=0.3367, metrics={'accuracy': 0.9032472386014451}
+Round 7: loss=0.3995, metrics={'accuracy': 0.877834066937962}
+Round 8: loss=0.4497, metrics={'accuracy': 0.8731002408437838}
+Round 9: loss=0.3621, metrics={'accuracy': 0.8999252553774604}
+Round 10: loss=0.3635, metrics={'accuracy': 0.8967693713146748}
+RUN 7
+Round 1: loss=1.0911, metrics={'accuracy': 0.6414749605514493}
+Round 2: loss=0.7260, metrics={'accuracy': 0.8052487334938958}
+Round 3: loss=0.8277, metrics={'accuracy': 0.7961132796279379}
+Round 4: loss=0.7258, metrics={'accuracy': 0.8153807823270492}
+Round 5: loss=0.8020, metrics={'accuracy': 0.7962793787891371}
+Round 6: loss=0.4428, metrics={'accuracy': 0.8601445062702433}
+Round 7: loss=0.3497, metrics={'accuracy': 0.9033302881820446}
+Round 8: loss=0.3317, metrics={'accuracy': 0.9081471638568225}
+Round 9: loss=0.3247, metrics={'accuracy': 0.9098081554688149}
+Round 10: loss=0.3083, metrics={'accuracy': 0.9167843202391828}
+RUN 8
+Round 1: loss=1.2833, metrics={'accuracy': 0.696952080391994}
+Round 2: loss=1.1239, metrics={'accuracy': 0.7299227638900424}
+Round 3: loss=1.4385, metrics={'accuracy': 0.7450377875591728}
+Round 4: loss=1.5982, metrics={'accuracy': 0.7456191346233702}
+Round 5: loss=0.9598, metrics={'accuracy': 0.7719458516734491}
+Round 6: loss=0.5205, metrics={'accuracy': 0.8368075741217507}
+Round 7: loss=0.3981, metrics={'accuracy': 0.8831492400963376}
+Round 8: loss=0.2964, metrics={'accuracy': 0.9187775101735737}
+Round 9: loss=0.3707, metrics={'accuracy': 0.899343908313263}
+Round 10: loss=0.3590, metrics={'accuracy': 0.9014201478282534}
+RUN 9
+Round 1: loss=0.8484, metrics={'accuracy': 0.7080807241923428}
+Round 2: loss=0.9051, metrics={'accuracy': 0.740220911884395}
+Round 3: loss=0.8806, metrics={'accuracy': 0.794784486338344}
+Round 4: loss=0.7323, metrics={'accuracy': 0.8198654596794286}
+Round 5: loss=0.5377, metrics={'accuracy': 0.8294161614483847}
+Round 6: loss=0.3403, metrics={'accuracy': 0.9017523461506519}
+Round 7: loss=0.3649, metrics={'accuracy': 0.8937795864130886}
+Round 8: loss=0.3089, metrics={'accuracy': 0.9126318412092019}
+Round 9: loss=0.3067, metrics={'accuracy': 0.9137114857569969}
+Round 10: loss=0.3228, metrics={'accuracy': 0.9100573042106137}
+RUN 10
+Round 1: loss=1.0287, metrics={'accuracy': 0.7786728677020182}
+Round 2: loss=1.2127, metrics={'accuracy': 0.7313346067602359}
+Round 3: loss=1.1264, metrics={'accuracy': 0.7893032140187692}
+Round 4: loss=0.5336, metrics={'accuracy': 0.823685740387011}
+Round 5: loss=0.4067, metrics={'accuracy': 0.8694460592974006}
+Round 6: loss=0.5685, metrics={'accuracy': 0.8238518395482103}
+Round 7: loss=0.7748, metrics={'accuracy': 0.8255128311602027}
+Round 8: loss=0.2991, metrics={'accuracy': 0.9154555269495889}
+Round 9: loss=0.2916, metrics={'accuracy': 0.9202724026243667}
+Round 10: loss=0.3199, metrics={'accuracy': 0.9083132630180217}
