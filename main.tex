@@ -33,29 +33,30 @@ Federated Learning (FL) is a distributed machine learning paradigm where multipl
 A fundamental assumption of Machine Learning is the IID-ness, which is constituted by two properties:
 \begin{enumerate}
     \item Independence: each pair of data points must be statistically independent from one another
-    \item Identical Distribution: a client has an identically distributed dataset if every point of the dataset is drawn from the same underlying probability distribution
+    \item Identical Distribution: every point of the dataset must be drawn from the same underlying probability distribution
 \end{enumerate}
+In Federated Learning, we say a client's local dataset is more or less IID if it presents these properties. Of course, clients can have different datasets, so the IID-ness of the local dataset may vary from client to client.
 In the original 2017 FedAvg algorithm, each of the $K$ clients receives the currenct global model, performs T steps of training locally using SGD, and then sends the updated model weights $\omega_k$ back to the server. The server then performs aggregation of these weights through the following weighted average:
 
 \begin{equation*}
 w_{\text{global}} = \frac{1}{\sum_{k=1}^K n_k} \sum_{k=1}^K n_k w_k
 \end{equation*}
-Where $n_k$ is the number of data samples of client $k$. In the past, it has been demonstrated that non-IIDness has a direct influence on the model updates $\omega_k$, in particular, non-IIDness in FedAvg can be characterized through the weight divergence between the weights calculated by FedAvg and those calculated by normal SGD using an ideal IID dataset \cite{FL-DataSharing}:
+Where $n_k$ is the number of data samples of client $k$. In the past, it has been demonstrated that non-IIDness has a direct influence on the model updates $\omega_k$, in particular, non-IIDness in FedAvg can be characterized through the weight divergence between the weights calculated by FedAvg and those calculated by the centralized SGD case using an ideal IID dataset \cite{FL-DataSharing}:
 \begin{equation*}
     weight\ divergence = \frac{\lVert \omega^{FedAvg}-\omega^{SGD} \rVert}{\lVert \omega^{SGD} \rVert} 
 \end{equation*}
 Such divergence was then demonstrated to be upper bounded by a function of the Earth's Mover Distance between the local probability distributions of the clients and the ideal IID centralized distribution \cite{FL-DataSharing}.
-This result tells us that we can describe the impact that non-IIDness will have on the training by analyzing the local client's distribution, for each client. However, privacy is a major concern when it comes to FL, thus such a direct measurement assumes we can access the data directly, which is not always possible. Moreover, it also assumes that we know how the ideal IID dataset used by normal SGD would look like, in other words, it assumes that we somehow know about the underlying probability distribution.
+This result tells us that we can describe the impact that non-IIDness will have on the training by analyzing the local client's distribution, for each client. However, privacy is a major concern when it comes to FL, thus such a direct measurement assumes we can access the data directly, which is not always possible. Moreover, it also assumes that we know how the ideal IID dataset used by the centralized case of SGD would look, in other words, it assumes that we somehow know about the underlying probability distribution.
 
 \section{Indirect characterization of clients through their non-IIDness}
-We assume that each client is characterized solely by its local dataset, while the global model is fixed and instantiated identically for all clients. Therefore, at the beginning of each FedAvg training round, each client starts with the same hypothesis function. This will be crucial for measuring non-IIDness, since we can only characterize it through the effects it produces on the client's training.
+We will now make the assumption that each client is characterized solely by its local dataset, while the global model is fixed and instantiated identically for all clients. Therefore, at the beginning of each FedAvg training round, each client starts with the same hypothesis function. This will be crucial for measuring non-IIDness, since we can only characterize it through the effects it produces on the client's training.
 \subsection{Clustering of model's updates weights}
-The first and most obvious indirect measurement that we can use to characterize a client are its updated model weights. In particular, even though clustering model weights does not immediately provide us any information on the quality of the training, like stability or generalization capabilities, given our initial assumptions, it still is a measure of how similar clients' local datasets may be to one another.
-In practice, if one class of data points is over-represented in two clients, it is reasonable to assume that the clustering will reflect it. On the other hand, if two clients have local datasets that reasonably well reflect the underlying IID distribution, they are likely to cluster together. Clustering could thus be a first step in individuating different and recurrent types of clients within our cluster, allowing us to subsequently offer a more detailed characterization for each group.
+The first and most obvious indirect measurement that we can use to characterize a client are its updated model weights. In particular, even though clustering model weights does not immediately provide us any information on the quality of the training, like stability or generalization capabilities, it still is a measure of how similar clients' local datasets may be to one another.
+In practice, if one class of data points is over-represented in two clients, it is reasonable to assume that the clustering will reflect it. On the other hand, if two clients have local datasets that reasonably well reflect the underlying IID distribution, they are likely to cluster together. Clustering could thus be a first step in individuating different and recurrent types of clients within our client set, allowing us to subsequently offer a more detailed characterization for each group of clients. We are now particularly interested in characterizing the IIDness (or lack thereof) of clients' datasets.
 
 \subsection{Weighted Local Rademacher Complexity as Clients' Characterization}
 
-The Rademacher complexity is a foundational tool in statistical learning theory that quantifies the ability of a function class to fit random noise. It provides a measure of the expressiveness—or "capacity"—of a hypothesis class with respect to a given dataset.
+The Rademacher complexity is a foundational tool in statistical learning theory that quantifies the ability of a function class to fit random noise. It provides a measure of the expressiveness, or "capacity", of a hypothesis class with respect to a given dataset.
 
 \begin{definition}[Empirical Rademacher Complexity]
 Let \( S = \{x_1, \dots, x_n\} \subseteq X \) be a dataset, and let \( \sigma_1, \dots, \sigma_n \) be independent Rademacher random variables (i.e., uniform over \( \{-1, 1\} \)). Then the empirical Rademacher complexity of a function class \( \digamma \) is defined as:
@@ -72,7 +73,7 @@ In practice, we are usually interested in the generalization behavior of models 
     \item Loss functions are typically bounded or Lipschitz, which helps with theoretical tractability.
 \end{itemize}
 
-In a federated learning (FL) setting, where multiple clients contribute heterogeneous local datasets, it is natural to consider a weighted version of Rademacher complexity across all clients.
+In a federated learning (FL) setting, where multiple clients contribute heterogeneous local datasets and thus cluster in different groups, it is natural to consider a weighted version of Rademacher complexity across all clients of a cluster.
 
 Furthermore, since the trained model tends to lie in a low-loss region of the hypothesis space, we can restrict attention to a localized subset, functions with small expected loss, leading to a localized form of the complexity.
 
@@ -90,10 +91,10 @@ Assume there are \( K \) clients, each holding a dataset of size \( n_k \), with
 
 \subsection{Weighted Local Rademacher Complexity}
 
-We now introduce the concept of locality in two senses:
+We now introduce the concept of locality, in two senses:
 \begin{enumerate}
-    \item We evaluate the complexity on the excess loss class \( \mathcal{L}^* = \{ \ell_f - \ell_{f^*} \mid f \in \digamma \} \), where \( f^* \) is the optimal predictor minimizing expected loss. Every $f$ that minimizes the loss "enough", will be near the optimum.
-    \item We consider only functions in \( \mathcal{L}^* \) for which the expected squared excess loss is bounded by a fixed radius \( r \).
+    \item We evaluate the complexity on the excess loss class \( \mathcal{L}^* = \{ \ell_f - \ell_{f^*} \mid f \in \digamma \} \), where \( f^* \) is the optimal predictor minimizing the expected loss. Every $f$ that minimizes the loss "enough", will be within the locality of the optimum.
+    \item We consider only functions in \( \mathcal{L}^* \) for which the expected squared excess loss is bounded by a fixed radius \( r \). We introduce the notation $\mathcal{L}_r^*$ to define such locality bounded by the radius \( r \), as cited before.
 \end{enumerate}
 
 \begin{definition}[Weighted Local Rademacher Complexity (WLRC)]
@@ -107,11 +108,11 @@ If we consider the localized subset of this class such that:
 \]
 Then the Weighted Local Rademacher Complexity is defined as:
 \[
-\text{WLRC}_n(\mathcal{L}^*) = \mathbb{E}_{\boldsymbol{\sigma}} \left[ \sup_{\ell \in \mathcal{L}^*} \sum_{k=1}^{K} \frac{p_k}{n_k} \sum_{i=1}^{n_k} \sigma_i \left( \ell(f(x_i^{(k)}), y_i^{(k)}) - \ell(f^*(x_i^{(k)}), y_i^{(k)}) \right) \right]
+\text{WLRC}(\mathcal{L}_r^*) = \mathbb{E}_{\boldsymbol{\sigma}} \left[ \sup_{\ell \in \mathcal{L}^*} \sum_{k=1}^{K} \frac{p_k}{n_k} \sum_{i=1}^{n_k} \sigma_i \left( \ell(f(x_i^{(k)}), y_i^{(k)}) - \ell(f^*(x_i^{(k)}), y_i^{(k)}) \right) \right]
 \]
 \end{definition}
 
-This localized complexity allows us to capture the behavior of models near the empirical minimizer, and leads to sharper generalization guarantees.
+This localized complexity allows us to capture the behavior of models near the optimal minimizer $f^*$, and leads to sharper generalization guarantees.
 
 \begin{theorem}[Excess Risk Bound via WLRC {\cite{WLRC}}]
 Let \( \tilde{f} \) be the function in \( \digamma \) minimizing the empirical risk. Then for any \( \delta \in (0, 1) \) and for any \( G > 1 \), with probability at least \( 1 - \delta \), the following holds:
@@ -125,18 +126,26 @@ We now introduce and prove a lemma that serves us to understand more about $r^*$
 Let $\mathcal{L}_r^* = \{ \ell(f(x),y) - \ell(f^*(x),y) \mid \mathbb{E}_{(x,y)}[(\ell(f(x),y) - \ell(f^*(x),y))^2] \leq r \}$ 
 be the localized excess loss class, and let $\text{WLRC}(\mathcal{L}_r^*)$ be the 
 Weighted Local Rademacher Complexity over this class. Then there exists 
-a fixed point $r^*$ such that:
+a fixed point $r^*$ to the equation $WLRC(\mathcal{L}_r^*) = r^*$ because of the inequality:
 \[
-\text{WLRC}(\mathcal{L}_{r}^*) \leq c \cdot r^*
+\text{WLRC}(\mathcal{L}_{r}^*) \leq c \cdot r,\ for\ any\ r > 0
 \]
 \end{lemma}
 The constant c depends on properties of the loss function (e.g., Lipschitz constant) and the hypothesis class. The need for the inequality comes from a result in statistical learning theory, where it is proven that, if we can bound the complexity (WLRC) of the function through a function of the radius, then we can control the generalization error; in other words the excess loss can be tied to the radius.
-Notice how $r^*$ is tied to the WLRC and to the choice of the "best" cluster, as it would be the lowest $r$ upper bounding the lowest WLRC calculated amongst all the clusters. From the bound it thus follows immediately that the cluster with the lowest calculated WLRC, would be the one with the lowest excess error. We thus propose to use the WLRC as a post-clustering diagnostic to identify the “best” client cluster,  the one whose local data distribution most closely aligns with the global learning objective. 
+Notice that the fixed point \( r^* \) is closely tied to both the WLRC and the selection of the ``best'' client cluster: it represents the smallest radius \( r \) such that the WLRC of the corresponding localized class is upper bounded by \( c \cdot r \). Operationally, this means that among a collection of clusters, the one with the lowest computed WLRC yields the smallest such \( r^* \), and thus the smallest upper bound on generalization error.
 In fact we can define $r^*$ as:
 \begin{equation}
     r^* = inf\{ r > 0 | WLRC(\mathcal{L}_{r}^{*}) \leq c \cdot r\}
 \end{equation}
-We next prove that the lemma above: $r^*$ exists and is always well defined. This, in turn, implies proving the sub-root property of the WLRC which is not proven in Wei et al. but just assumed. The sub-root property guarantees the existence of a unique point $r^*$ solution to the fixed-point equation $WLRC(\mathcal{L}_r^*)=r$, which is expressed in \cite{WLRC}.
+
+
+We therefore propose using WLRC as a \emph{post-clustering diagnostic} to identify the ``best'' cluster, the one whose local data distribution is most compatible with the global learning objective.
+
+We next prove that the lemma above: if we prove that:
+\[
+\text{WLRC}(\mathcal{L}_{r}^*) \leq c \cdot r,\ for\ any\ r > 0
+\], then we prove that
+$r^*$ exists and is always well defined. This, in turn, implies proving the sub-root property of the WLRC. The sub-root property guarantees the existence of a unique point $r^*$ solution to the fixed-point equation $WLRC(\mathcal{L}_r^*)=r$, which is expressed in \cite{WLRC}.
 \begin{proof}
 Consider the excess loss class localized by the squared loss 
 radius $r$, and define the function:
@@ -203,7 +212,7 @@ radius $r$, and define the function:
     In our case we define $\mathbb{T}=\digamma$, and $X_f-X_{f^*}= \frac{1}{n}\sum_{i=1}^n \sigma_i (f(x)-f^*(x))$. Then, at the left hand side of the disequation we get the definition of the WLRC: \[
     \mathbb{E}[sup_{f, f' \in \digamma}(X_f - X_{f^*})] \leq C \int_{0}^{\frac{\sqrt{r}}{L}}\sqrt{logN(\mu,\digamma)}d\mu
     \],
-    Where $logN(\mu,\digamma)$ is called metric entropy. Now, to bound the term inside the integral the metric entropy itself needs to be finite, and it is, since all of the considered functions are contained in a finite space defined by the radius $\frac{\sqrt{r}}{L}$.
+    Now $logN(\mu,\digamma)$ is called metric entropy. To bound the term inside the integral the metric entropy itself needs to be finite, and it is, since all of the considered functions are contained in a finite space defined by the radius $\frac{\sqrt{r}}{L}$.
     $\digamma$ already has finite metric entropy since $\|f(x)-f^*(x)\| \leq \frac{\sqrt{r}}{L} \forall f \in \digamma$, so we can have under standard results:
     \[
     logN(\mu, \digamma) \leq C \cdot (\frac{\sqrt{r}/L}{\mu})^2 \implies
@@ -321,6 +330,30 @@ The estimation involves two steps: calculating a local approximation of the WLRC
 \end{algorithmic}
 \end{algorithm}
 Note that for simpler models (shallow models) the estimation of the WLRC is simpler and probably provides better results, since \cite{WLRC} provides a result that lets us use SVD decomposition on the learning parameters $W$ to estimate the WLRC.
+
+
+\section{Experimental results}
+\subsection{The setting}
+Two experiments were tested with different non-IIDness of the clients. The Flower framework was used to test an environment of 100 clients with the MNIST dataset and the initialization of the local datasets was done through a seeded Dirichlet random sampling, so that every client, for every run of the algorithm (and thus every different strategy tried), is assigned always the same identical data partition. 
+This is a choice that allows us to fix the clients' partitions and the model, while enabling the experiments to highlight the strategies' performances' differences.
+The clients are trained for 10 epochs before sending their updates to the servers, for a total of 10 rounds of FedAvg training. In particular, the first five rounds are important to let the clients train the local models and diverge between each other, while at round 5 a clustering is used to analyze how different the clients are from each other. The experiments diverge from this point into trying different strategies with different levels of non-IIDness. In our case, we use label skew to identify non-IIDness. However, it must be said that there is also a level of quantity skew in the local datasets of the clients, which might make even a client without label skew a somewhat non-IID client. In any case, this contributes to the meaningfulness of the experiments, since in a real Federated Learning setting, we can hardly ask that clients, with or without label skew, must have the same amount of samples for each class.
+The model, as announced before, is always initialized with the same parameters.
+For each experiment, we finally compare our strategies with two other strategies: a "complete" FedAvg training, where we train on all 100 clients, and a random sampling  FedAvg training, where 10 clients are chosen at random at each round for the training. The evaluation is always performed on all clients by calculating the accuracy after each training phase, and then the accuracy values are averaged across all clients. Of course, between the different strategies, the same clients always have the same distributions, provided that the same parameter for Dirichlet sampling is inputted and the clustering always uses 10 clusters.
+For random sampling, we take, for each round, the performance values and average them over 10 total runs of the entire algorithm.
+
+\paragraph{Experiment 1}
+In the first experiment we demonstrate that the procedure is able to distinguish well the best cluster of IID (or less non IID clients), when these happen to be present. In particular, we try two options for $\alpha$: $1$ and $0.5$. $1$ creates some label skew but, the majority of clients have still at least one example from all classes. We will call this "mild skewness" condition. The other value for $\alpha$ gives the majority of clients' datasets label-skew. We call this "high skewness" condition. All three strategies of client selection are tried to get the results. 
+The clustering immediately shows that, at round 5, every IID client tends to be clustered together with other IID clients, and every nonIID client tends to be clustered together with nonIID clients, which is what we expect if the training makes similar clients converge model-update wise. 
+With higher skew normal FedAvg drops in performance from $\sim 90\%$ to $\sim 86\%$, whilst random selection falls from $90\%$ to $87\%$. 
+WLRC performs around the same as FedAvg with mild skewness and performs consistently better ($\sim 89\%$) under high skewness. While this may not seem impressive at first, there is a noticeable accuracy jump of $5\%$ and $7\%$ respectively, from round 5 (where clusters are calculated and ranked under WLRC scores) to round 6, suggesting that indeed our selection strategy is redirecting the training in a better direction than random sampling, or even taking all clients for training, which is also more computationally and network latency expensive. 
+In conclusion, the WLRC strategy could thus prove very useful, especially for classification tasks ,much more challenging than the MNIST one.
+
+\paragraph{Experiment 2}
+We now test the procedure under extreme non-IIDness, setting $\alpha$ to $0.1$. The idea is to test how the algorithm reacts when there is no cleary better cluster. Of course, a "best" cluster will be always found by WLRC, however, what happens when this "best" cluster may not be better than the others in any meaningful way? The expectation is that, given our premise, is that the strategy performes  poorly, worse than normal FedAvg, in fact. For if no cluster is really better than another, one random cluster will be picked and it will skew the learning on its own, without leaving the chance to other clients to offset this problem. However, there are other ways to use the Rademacher complexity. What if, given the characterization given by the clusters, we were to select a few "best" clients for each cluster? We call this sampling "LRC Sampling", since we are using a local rademacher complexity that is not weighted (we do not do an average calculated on the cluster, but rather we pick the client with the lowest score in the cluster, for each cluster).
+Another less successful mixed sampling was also attempted, a sampling which takes both the best cluster and also goes through every cluster and selects the one with lowest Rademacher complexity.
+The experiments do not seem to show much difference between LRC and FedAvg, except that LRC has a faster convergence and it uses a tenth of the clients during training, which still makes better performances.
+
+
 
 \bibliographystyle{alpha}
 \bibliography{bibliography}
