@@ -1,0 +1,10 @@
+Round 1: loss=1.6854, metrics={'accuracy': 0.5662430434421464}
+Round 2: loss=1.3013, metrics={'accuracy': 0.6139214220450203}
+Round 3: loss=1.1418, metrics={'accuracy': 0.6455685688180082}
+Round 4: loss=1.0637, metrics={'accuracy': 0.6732286734778636}
+Round 5: loss=1.0205, metrics={'accuracy': 0.6929146939114544}
+Round 6: loss=0.9896, metrics={'accuracy': 0.7061217709112052}
+Round 7: loss=0.9634, metrics={'accuracy': 0.7158401860619653}
+Round 8: loss=0.9363, metrics={'accuracy': 0.7218207492316637}
+Round 9: loss=0.9079, metrics={'accuracy': 0.7273029321372207}
+Round 10: loss=0.8756, metrics={'accuracy': 0.7317883545144945}
