@@ -2,7 +2,8 @@ import os
 import re
 import matplotlib.pyplot as plt
 
-experiments = [3]
+
+experiments = [1, 2]
 modes = ['randselFedavg', 'fedavg', 'WLRC', 'LRC_Sampling', 'Mixed_Sampling', 'Mixed_WLRC_FedAvg']
 names = {}
 
